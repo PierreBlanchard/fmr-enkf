@@ -1,0 +1,28 @@
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+The L40p model is a modification of the L40 model designed to
+demonstrate parameter estimation with ensemble Kalman filter. Specifically,
+the magnitude of the forcing is no longer set to a constant value of 8, but 
+varies between 7 and 9. The state vector is augmented by one element to 
+include the forcing magnitude, and the initial ensemble is generated from states
+obtained from a long run with varying magnitude of forcing.
+
+Because there is no assumed dynamics for the parameter during the propagation, 
+each assimilation cycle reduces the spread of the estimated parameter. This 
+process is balanced by the inflation, which is specified via inflation_prm 
+parameter.
+
+One can compare how this augmented system performs versus the non-augmented 
+system. The easiest way to do that (to run the true field with varying forcing
+but set the ensemble forcing to a constant value) is to set the value of forcing
+equal in all ensemble members, e.g. insert
+
+E(end, :) = 8;
+
+just after the initialisation in main.m .
+
+Good luck,
+Pavel

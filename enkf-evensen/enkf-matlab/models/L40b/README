@@ -1,0 +1,18 @@
+%% Copyright (C) 2010 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+The L40b model is yet another modification of the L40 model (along with L40p)
+designed to demonstrate parameter estimation with ensemble Kalman filter.
+Unlike L40p that estimates changing magnitude of the forcing parmeter, L40b
+estimates changing observation bias. Similarly to L40p, the state vector is 
+augmented by one element to include the bias estimate.
+
+Because there is no assumed dynamics for the parameter during the propagation, 
+each assimilation cycle reduces the spread of the estimated parameter. This 
+process is balanced by the inflation, which is specified via inflation_prm 
+parameter.
+
+Good luck,
+Pavel

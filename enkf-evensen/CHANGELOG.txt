@@ -1,0 +1,208 @@
+v. 0.31 12 June 2013
+	-- In plot_*.m replaced "figure(<fh>)" by 
+	   "set(0, "CurrentFigure", <fh>)" to avoid focus switching.
+	-- Added restoring of randn() state in genR.m.
+v. 0.30 13 May 2011
+        -- Introduced adpative observation pre-screening; controlled by a new
+           parameter "kfactor".
+        -- Introduced a new option "noasynchronous"; for investigating the 
+           impact of assimilating asynchronous observations synchronously.
+	-- Fixed a defect in assimilate.m: l.9: 
+	   was: S = HA ./ repmat(sqrt(r), 1, p) / sqrt(m - 1);
+	   now: S = HA ./ repmat(sqrt(r), 1, m) / sqrt(m - 1);
+v. 0.29 24 April 2011
+        -- Parameter "rfactor" is renamed to "rfactor2".
+	-- Introduced a new parameter "rfactor1" - multiple for observation 
+           error variance used in updating the ensemble mean.
+        -- The model ("custom")parameter files are now looked for both in
+           current and "enkfmatlabdir" directory.
+        -- Many small changes.
+v. 0.28 26 August 2010
+        (Quite major changes)
+	-- Moved fmain_a.m and main_a.m to fmain.m and main.m.
+        -- Introduced L40b model.
+	-- Introduced new parameter inflation_prm that specifies inflation
+           magnitude for unobserved ("parameter") part of the state.
+        -- Introduced new files model_getHA.m and model_getobs.m.
+        -- Eliminated option "approx" for L3 and L40 models.
+        -- Changed some defaults and code structure for these models.
+        -- Made sure that runs with every parameter file from "prm" directory
+           runs (at least on my machine).
+        -- corrected the time step in L3. It is now equal to "dt" specified in 
+           the "custom" (model-specific) parameter file. (Used to be 1/60 for
+           compiled version of the code, do not ask me why.) The Matlab version
+           looks to be fine, although it was coded a bit strange, too.
+v. 0.27 3 Aug 2010
+        -- Fixed calculation of RMSE in calc_stats().
+v. 0.26 14 April 2010
+        -- Synced "Potter" scheme in assimilate() with the changed
+           interface in calc_k().
+        -- Changed the color map used for displaying state for the QG model.
+	-- Added tools/set_colormap.m
+        -- Added code to save/restore the state of randn() after/before call to
+           get_obs() to make sure that the same observations are used when
+           assimilating with different schemes.
+        -- Added tools/spinup.m to gradually spinup the system by reducing the
+           observation error variance.
+v. 0.25 12 Nov 2009
+        -- Added binaries for L3, L40 and QG models for 32- and 64-bit Windows
+           platforms - thanks to Oliver Pajonk for compiling those.
+v. 0.24 9 Nov 2009
+        -- Added check on non-zero length in kurtosis.m and skewness.m.
+        -- Fixed a defect in asynchronous stuff with EnKF scheme (an extra
+           division by sqrt(r) for D) in assimilate_a.
+        -- Modified calc_k.m for using with the asynchronous data assimilation.
+        -- Modified setpath.m to prevent data error in the case if some of the
+           entries in the user's path do not exist.
+	-- Modified path separator for Windows - thanks to Oliver Pajonk.
+        -- In a number of model_generate.m files added a search for the sample 
+           file in the prm.enkfmatlabdir directory.
+        -- Introduced CF localisation for asynchronous assimilation in
+           assimilate_a.m; at the moment - only for EnKF and DEnKF schemes.
+        -- Added measurement of total time for assimilation and propagation
+           to main.m and main_a.m.
+	-- Added a check for the presence of sample file in prm.enkfmatlabdir
+           directory to models/L3,L40,L40p,QG/model_generate.m
+v. 0.23 21 Sep 2009
+        -- Fixed a defect in setpath.m introduced in v. 0.22
+v. 0.22 15 Sep 2009
+        -- Added kurtosis.m and skewness.m to eliminate dependence on the
+           Statistics Toolbox
+        -- Added a new field "enkfmatlabdir" to the parameters structure to
+           simplify running from a directory other other than the EnKF-Matlab
+           root. Modified setpath.m accordingly.
+           NOTE: you may need to update your existing parameter files used in
+           scripts by including "enkfmatlabdir" entry.
+v. 0.21 9 Sep 2009
+        -- Added code for asynchronous data assimilation - see 
+           README.asynchronous for details.
+        -- Added file README.restart.
+        -- Simplified step handling in main.m: a new run starts now at step = 1 
+           (used to be step = 0), and a restart starts at <last step> + 1.
+        -- Corrected defects in L40_step_c.c and L3_step_c.c that modified the
+           initial state during integration.
+        -- Replaced "bunch" by "batch" throughout the code, which is a common
+           concept for assimilating observations in groups.
+        -- Removed binaries for 32-bit machines.
+v. 0.20 3 Aug 2009
+        -- Got rid of 'LETKF'. Use 'ETKF' with loc_method set to 'LA' instead.
+	-- Prohibited using ETKF with loc_method = 'CF'.
+	-- Introduced get_version.m
+	-- Created a subdirectory "custom" in "prm" for model-specific
+           parameter files
+	-- Made some changes in parameter files in "prm"
+v. 0.19 22 July 2009
+        -- Modified "model_plotstate.m" for L3. It now plots the history for
+           each variable. For the old option of plotting the instanteous state
+           set plot_state = 2 in the parameter file.
+        -- Added file README.localisation
+        -- Removed file README.ETKF
+        -- Renamed parameter field "loc_framework" to "loc_method", and renamed
+           the possible options for this field from "global" to "CF" (for
+           covariance filtering) and from "local" to LA (for local analysis).
+        -- Modified some files for working with asynchronous DA (in testing):
+           some minor modifications in calc_stats.m, get_prm.m, get_prmstruct.m,
+           main.m
+        -- Changed field name in stats structure from "energy95' to 'var95'
+v. 0.18 12 March 2009
+        -- A few tweaks in assimilate.m to improve performance in "local"
+           framework.
+v. 0.17 27 February 2009
+        -- BUG FIX: in assimilate.m - took inflation/rotation out of the
+	   observation bunch loop.
+v. 0.16 27 February 2009
+        -- In assimilate.m - separated code for assimilation with localisation
+           in global framework (via covariance filtering) and with localisation
+           in local framework.
+v. 0.15 12 February 2009
+        -- A small (hopefully, final) modification in assimilate.m, LETKF code.
+v. 0.14, 10 February 2009
+        -- Modified assimilate.m: for LETKF - now use locally tapered
+           innovations during updating the mean.
+        -- Modified get_localobs.m: now works properly with no localisation.
+	-- Modified get_prm.m: now gives a warning if LETKF is run without
+           localisation
+	-- Added prm/prm-L40-letkf.txt.
+        -- Modified README.ETKF.
+	-- Modified README: updated possible QG dimensions in the reference
+	   table for models.
+v. 0.13, 4 February 2009
+        -- In assimilate.m - made LETKF completely local, including the update
+           of the mean.
+        -- In calc_k.m - removed option "observation_scaling" localisation
+           method because it is not consistent with localisation in a global
+           framework handled by this code (opposed to the local framework, e.g.
+           with LETKF).
+        -- Modified find_localobs.m - find_localobs() now returns not only the
+           local observations but also the weights for tapering the anomalies.
+        -- Added options of n = 4225 (65 x 65) and n = 1089 (33 x 33) for the
+           QG model. (The prior option of n = 16641, 129 x 129, remains
+           available.) Added files 
+             prm/prm-QGs-denkf.txt
+             prm/prm-QGs-enkf.txt
+             prm/prm-QGt-denkf.txt
+             prm/prm-QGt-letkf.txt
+             prm/prm-QGt-potter.txt
+	   along with prm/prm-custom-QGs.txt, prm/prm-custom-QGt.txt and
+           prm/QGt.prm, prm/QGs.prm.
+        -- Added samples/QGt_samples.mat.
+        -- Added QGs_step_f.mexa64 and bin/QGt_step_f.mexa64.
+
+v. 0.12, 21 November 2008
+        -- Added models/L40p/README
+        -- Added prm/README
+        -- Removed prm/prm-L3.txt; added prm/prm-L3-m=3.txt and
+           prm/prm-L3-m=2.txt.
+        -- Modified README
+        -- Modified assimilate.m, get_prmstruct.m to accomodate a new parameter
+           "rfactor", which is a multiple for the observation error covariance
+           R applied at updating the ensemble anomalies only (not for updating
+           the mean)
+        -- Added genR.m for generation of random orthonormal matrices
+        -- A number of cosmetic changes or bug fixes
+v. 0.11, 25 August 2008
+        -- Minor changes in a number of files to handle simultaneous observation
+           of two variables in LA2 and S models
+        -- Minor correction of spatial scales for various localisation functions
+           to ensure the same exp(0.5) - folding distance:
+              calc_loccoeffs(1, function, 1) = exp(-0.5)
+           for all available localisation functions with precision of 5 digits.
+v. 0.10, 14 August 2008
+        -- Modified code to allow custom localisation function. This includes:
+           -- A new file calc_loccoeffs.m
+           -- Two new fields in parameter structure defined in get_prmstruct.m,
+              "periodic" and "loc_function"
+        -- A minor restructuring in the "tools" directory
+v. 0.09, 13 August 2008
+        -- Minor changes in README
+	-- Cosmetic changes in redraw_ensemble.m
+	-- get_prmstruct.m: changed default value for prm.rotate from "'0'"
+           (a bug) to "0"
+	-- get_prmstruct.m: changed default value for p_bunchsize from 100
+           to 0 (that forces it to be equal to the number of observations)
+        -- added README to models/LA
+        -- added ensemble variance to the list of arguments of model_plotstate()
+        -- now displaying variance for QG model
+v. 0.08, 27 June 2008
+        -- Added fclose() in readprmfile.m - thanks to Ding Youzhuan
+        -- Minor changes in README
+v. 0.07, 26 June 2008
+        -- Appended ";" to "prm.loc_method = ..." in main.m (2 locations)
+v. 0.06, 16 June 2008
+        -- Introduced this file
+	-- Fixed calc_rlocal.m used for localisation with LETKF:
+             z = 0.5 * (dist / loc_len)^2 
+	   instead of (incorrect)
+	     z = 0.5 * dist^2 / loc_len
+	-- Introduced a new option loc_method = {covariance_filtering, 
+	   observation_scaling}. "covariance_filtering" is a traditional method
+           of localisation; the new option "observation_scaling" is used for 
+	   LETKF-like localisation via upscaling of observation error variance.
+	   "covariance_filtering" is a default for all methods other than LETKF.
+	   With LETKF, the update of ensemble anomalies is always calculated 
+	   with "observation_scaling" option, while update of the mean can be 
+	   calculated with either (with "observation_scaling" being a default 
+	   option).
+	-- In the context of the above, reshuffled calc_k.m.
+	-- Eliminated the warning message from lscov when calculating RMSE
+           of the best possible fit for LA* models.

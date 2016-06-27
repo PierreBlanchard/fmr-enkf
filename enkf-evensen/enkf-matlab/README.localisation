@@ -1,0 +1,42 @@
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+There are two localisation methods that are switched by parameter "loc_method".
+The first method involves modification of the update equations by replacing the state error covariance by its element-wise product with some distance-dependent
+correlation matrix (Houtekamer and Mitchell, 2001; Hamill and Whitaker, 2001). 
+It is commonly referred to as covariance localisation, or covariance filtering.
+The second method uses a local approximation of the forecast covariance for
+updating a state vector element, calculated by building a local window around
+this element (Evensen, 2003; Anderson, 2003; Ott et al., 2004). Following
+Evensen (2003), we refer to it as local analysis.
+
+Use "CF" for covariance localisation , and "LA" for local analysis.
+
+"CF" is the default method.
+
+Some schemes are not supposed to be used with a particular localisation method.
+For example, CF can not be used with the ETKF.
+
+References
+
+Anderson, J. L. 2001. A local least squares framework for ensemble filtering.
+Mon. Wea. Rev. 131, 634-642.
+
+Evensen, G. 2003. The ensemble Kalman filter: theoretical formulation and
+practical implementation. Ocean Dynamics 53, 343-367.
+
+Hamill, T. M. and Whitaker, J. S. 2001. Distance-dependent filtering of
+background error covariance estimates in an ensemble Kalman filter.
+Mon. Wea. Rev. 129, 2776-2790.
+
+Houtekamer, P. L. and Mitchell, H. L. 2001. A Sequential Ensemble Kalman Filter
+for Atmospheric Data Assimilation. Mon. Wea. Rev. 129, 123-137.
+
+Hunt, B. R., Kostelich, E. J. and Szunyogh, I. 2007. Efficient data assimilation
+for spatiotemporal chaos: A local ensemble transform Kalman filter. Physica D
+230, 112-126.
+
+Sakov, P. and Bertino, L. 2010. Relation between two common localisation 
+methods for the EnKF. Comput. Geosci (in press).

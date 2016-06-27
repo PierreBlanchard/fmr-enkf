@@ -1,0 +1,40 @@
+%% Copyright (C) 2009 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+This document describes how to make a perfect restart of a DA system in 
+EnKF-Matlab.
+
+Such a restart can be necesary for a number of reasons. For example, one may 
+need to process the ensemble without storing it to disk; or may need to change 
+the system parameters while keeping the current state of the system. 
+
+A number of changes in the EnKF-Matlab code introduced in version 0.21 have 
+simplified the restart procedure. The generic pseudocode now looks as follows:
+
+<BEGIN>
+    <initialise parameter structure `prm'>
+    <e.g.: prm = get_prm(prmfname); etc.>
+    x_true = [];
+    E = [];
+    stats = [];
+    for i = 1 to nrestart
+        <set `prm' for this run>
+        [tmp, x_true, E, stats] = main(prm, x_true, E, stats);
+        <check this run - see Note 2>
+        <other operations>
+    end
+<END>
+
+Notes:
+
+1. At any stage the variable `stats' contains information that should allow to 
+  reproduce the current state of the system. In particular, its field "prm"
+  contains array of `prm' structures with parameters used in each restart; field
+  "restart" contains the step numbers at the moment of each restart.
+2. If the system output has been switched off, e.g. prm.verbose = 0; 
+  prm.plot_diag = 0; etc.; then it may be necesary to check that the system
+  has actually conducted the prescribed number of steps at each iteration by 
+  checking prm.step(end). The reason for this check is that a detected
+  divergence now terminates the main loop without causing a fatal error.

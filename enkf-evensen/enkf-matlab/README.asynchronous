@@ -1,0 +1,20 @@
+%% Copyright (C) 2009 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+To run the asynchronous EnKF, specify "assim_step" and "obs_step" in your 
+parameter file. The observations made during the cycle are assimilated 
+asynchronously, that is in a way that is equivalent (in the case of a perfect
+linear model) to assimilating each observation at the time of observation. When 
+the values of these parameters are equal, the asynchronous code becomes
+equivalent to the (old) synchronous code.
+
+References
+
+Sakov, P., G. Evensen, and L. Bertino, 2010: Asynchronous data assimilation with
+the EnKF. Tellus, 62A, 24-29, DOI: 10.1111/j.1600-0870.2009.00417.x.
+
+Hunt, B. R., E. J. Kostelich, and I. Szunyogh, 2007: Efficient data assimilation
+for spatiotemporal chaos: A local ensemble transform Kalman filter. Physica D, 
+230, 112-126.

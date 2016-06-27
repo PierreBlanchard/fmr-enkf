@@ -1,0 +1,37 @@
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+This directory contains:
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+This directory contains:
+  - custom parameter files with particular suggested setups for each model.
+    These include:
+      prm-custom-LA.txt
+      prm-custom-L3.txt
+      prm-custom-L40.txt
+      prm-custom-L40p.txt
+      prm-custom-QG.txt
+    There is no need to edit those unless you want to change the system 
+    behaviour;
+  - parameter files for the full-size QG model (129 x 129):
+      QG.prm
+      QG-ens.prm
+  - parameter file for QGs - "small" QG model (65 x 65):
+      QGs.prm
+  - parameter file for QGt - "tiny" QG model (33 x 33):
+      QGt.prm
+
+    Modifying parameter files for the QG model changes the model behaviour. Do 
+    not touch them unless you have a specific reason for that.
+
+Note: I have noticed that the full-size QG model became unstable with the latest
+samples available from http://enkf.nersc.no/Code/EnKF-Matlab/QG_samples .
+Because of that, simultaneously with releasing EnKF-Matlab v. 0.16 the sample
+will be reverted to prior ones, that resulted in much more stable runs. Beware
+that these earlier samples are the dumps from a long run with r = 2e-5.

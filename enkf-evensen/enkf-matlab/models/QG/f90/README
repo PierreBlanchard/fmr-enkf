@@ -1,0 +1,55 @@
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+This directory contains Fortran90 code for the QG model for building
+
+(1) a standalone binary;
+(2) Matlab binary for conducting a single step of the QG model in when used
+    for data assimilation (DA) experiments with the package kalman-matlab.
+
+To build a standalone binary one needs a F90 compiler (tested with g95) and 
+netcdf libraries. Edit the Makefile and run:
+	make
+
+This should compile the binary "qg" which then can be used for making QG model 
+runs. This is a necessary prerequisitive for conducting DA experiments because 
+it the initial ensemble is composed of dumps from a long run.
+
+To bild a Matlab binary, in Matlab run the command from mexcmd.m.
+
+To create a collection of samples necessary for DA experiments (by memory):
+
+1. Build "qg" binary
+        Note: you may need to change Makefile. In particular, FC (for F90
+        compiler) and FCFLAGS. In particular, with g95, you may need to play
+        with underscore options in FCFLAGS to match those of your version of the
+        NetCDF libraries - search G95Manual.pdf for "undescore" to see available
+        options.
+2. Run:
+	./qg prm.txt
+	./qg prm-ens.txt
+3. In Matlab run:
+	psi = qgread('qg_samples-r=1e-5,dt=1.0,RKH2=2e-12.nc');
+	[n_sample, ni, nj] = size(psi);
+	n = ni * nj;
+	S = reshape(psi, n_sample, n)';
+	save 'QG_samples-12.mat' S n_sample n;
+	psi = qgread('qg_samples-r=1e-5,dt=1.0,RKH2=2e-11.nc');
+	[n_sample, ni, nj] = size(psi);
+	n = ni * nj;
+	S = reshape(psi, n_sample, n)';
+	save 'QG_samples-11.mat' S n_sample n;
+4. ln -s QG_samples*.mat ../../../samples
+
+The output of the model can be visualised in Matlab e.g.:
+	fname = 'qg_samples-r=1e-5,dt=1.0,RKH2=2e-12.nc';
+	[psi, q, psimean, qmean, t] = qgread(fname);
+To see dump #10:
+	nr = 10;
+	qgplot(psi(nr, :, :), q(nr, :, :));
+To see the mean fields:
+	qgplot(psimean, qmean);
+To see the movie:
+	qgplay(psi, q, t, 0.2);

@@ -1,0 +1,155 @@
+%% Copyright (C) 2008 Pavel Sakov
+%% 
+%% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
+%% LICENSE for details.
+
+This directory contains a number of example parameter files for running 
+a number of particular systems. These files include:
+
+  prm-LA.txt
+  prm-LA2.txt
+  prm-L3-m=2.txt
+  prm-L3-m=3.txt
+  prm-L40.txt
+  prm-L40p.txt
+  prm-S.txt
+  prm-QG-denkf.txt
+  prm-QG-enkf.txt
+  prm-QG-enoi.txt
+  prm-QG-etkf.txt
+  prm-QG-potter.txt
+
+  To run a particular example, in the EnKF-Matlab directory, in Matlab, call
+  fmain with the parameter file as an argument, e.g.
+
+  >> fmain('prm/prm-LA.txt');
+
+  or
+
+  >> [x, x_true, E, stats] = fmain('prm/prm-LA.txt');
+
+  The latter form allows one to analyse run statistics or store the final state
+  of the system and later restart from it.
+
+  These files may be used as templates for your particular needs. Most of the
+  fields can be freely changed, others are not supposed to be changed,
+  depending on a particular model. E.g., the model state vector size "n" can
+  be changed for LA but not for L3 model.
+
+Following is brief description of each system.
+
+- prm-L3-m=2.txt
+
+  The system with 3-dimensional Lorenz model and ensemble of 2 states. If you 
+  need to run Lorenz model a lot make sure to switch off the graphical output
+  (plot_state = 0, plot_diag = 0) and printing (verbose = 0). Also check that
+  the compiled version of the model is used (compile it from L3_step_c.c on your
+  system with Matlab's mex compiler if necessary). This is switched on by 
+  setting use_compiled = 1 (default) in prm-custom-L3.txt.
+
+  Note that the model properties do very depend on the integration time step.
+  For example, the system behaviour with dt = 0.01 and assim_step = 5 is quite 
+  different from that with dt = 0.05 and assim_step = 1.
+
+  Note that this system is chaotic, and some stability issues may show up only 
+  at very long runs. I suggest using at least 10^6 - 10^7 model steps in
+  publications.
+
+  You may change the state plotting procedure by setting plot_state to 1, 2 or 
+  3.
+
+- prm-L3-m=3.txt
+
+  A possible configuration for 3 states. Note how big is the change in the 
+  system setup (e.g. rfactor), and in the performance
+  (e.g. mean(stats.rmse_a(50:end))).
+
+- prm-L40-etkf.txt
+
+  The system with 40-dimensional Lorenz model and a performance-aimed setup, 
+  with ETKF and no localisation.
+
+  The state output is supposed to demonstrate the lack of direct relation 
+  between the observation error and state error (a popular belief).
+
+  Note that, similar to L3, this system is chaotic, and some stability issues 
+  may show up only at very long runs. I suggest using at least 10^6 model steps
+  in publications.
+
+- prm-L40-etkf-loc.txt
+
+  As above, with local analysis. (The ETKF with local analysis is often referred
+  to as LETKF.)
+
+- prm/prm-L40p.txt
+
+  A system with forcing parameter estimation based on L40 model.
+
+- prm/prm-L40b.txt
+
+  A system with observation bias estimation based on L40 model. Note that it
+  initialises from L40p state, therefore the initial state is not entirely
+  sensible.
+  
+- prm/prm-LA.txt
+
+  A system based on the Evensen's Linear Advection model and the traditional
+  (perturbed observations) EnKF. A straightforward setup, with a moderate size
+  ensemble and no compensation for suboptimality. Note the ensemble collapse.
+
+  See the difference made by changing "method = EnKF" to "ETKF".
+
+  Note that this test may be viewed as an estimation of a static field scanned 
+  with 4 moving observations.
+
+- prm/prm-LA2.txt
+
+  As above, with a second (diagnostic) variable set to the derivative of the 
+  main variable. A linear system with a full-rank ETKF - must be equivalent to
+  Kalman Filter.
+
+- prm/prm-S.txt
+
+  A modification of the LA system, with a dynamic field. The model represents
+  two (static) sound waves moving in opposite directions. The total (sum) 
+  pressure is observed.
+
+- prm-QG-denkf.txt
+
+  A rather large quasi-geostrophic model with the DEnKF ("deterministic" EnKF,
+  do not confuse with "double" EnKF or "Diffusive" EnKF). Uses covariance
+  localisation. Use "LA" to directly compare against ETKF.
+
+  To run systems with QG model you need to produce initial ensemble or download
+  it from http://enkf.nersc.no/Code/EnKF-Matlab/QG_samples.
+
+- prm-QG-etkf.txt
+
+  Same settings as above, but with the (L)ETKF.
+
+- prm-QG-potter.txt
+
+  A setup with the Potter scheme, also known as EnSRF.
+
+- prm-QG-enoi.txt
+
+  A setup with EnOI. Not as brilliant, but much faster.
+
+- prm-QG-enkf.txt
+
+  As above, with the traditional EnKF. Set as an examlpe rather than a 
+  comparison with the above. Smaller localisation length, a bit bigger ensemble.
+
+- prm-QGs-*.txt
+
+  Setups for "small" QG model. QGs model has the nominal state size of 4225, 
+  versus 16641 for QG.
+
+  To run systems with QGs model you need to produce initial ensemble or download
+  it from http://enkf.nersc.no/Code/EnKF-Matlab/QG_samples.
+
+- prm-QGt-*.txt
+
+  Setups for "tiny" QG model. QGt model has the nominal state size of  only
+  1089. Unlike QG and QGt, you must be able to run this model "out of the box".
+  

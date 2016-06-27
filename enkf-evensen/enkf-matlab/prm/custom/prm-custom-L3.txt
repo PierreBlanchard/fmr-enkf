@@ -1,0 +1,4 @@
+integrator    rk4
+dt            0.01
+fname_samples samples/L3_samples.mat
+use_compiled  1

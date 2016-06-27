@@ -1,0 +1,4 @@
+fname_parameters_true prm/custom/QG.prm
+fname_parameters_ens  prm/custom/QG-ens.prm
+fname_samples_true    samples/QG_samples-12.mat
+fname_samples_ens     samples/QG_samples-11.mat

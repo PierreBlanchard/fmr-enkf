@@ -1,0 +1,8 @@
+# ignore files
+
+# temporary files
+*~
+
+# fmr library install directories
+fmr-dev/
+fmr-logs/

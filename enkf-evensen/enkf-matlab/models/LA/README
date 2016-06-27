@@ -1,0 +1,5 @@
+The LA stands for "linear advection" model. It was introduced by Evensen in
+2004. Note that while the current code forces the field to advect by one grid
+node at each time step, this is not necessary. It would be more efficient to
+obtain equivalent results by moving observations by one node in the opposite
+direction instead.

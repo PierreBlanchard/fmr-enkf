@@ -1,0 +1,15 @@
+&parameters
+  tend = 0
+  dtout = 5
+  dt = 5.0
+  RKB = 0.0e-6
+  RKH = 2.0e-7
+  RKH2 = 4.0e-11
+  F = 1600
+  r = 4e-5
+  verbose = 1
+  scheme = 'rk4'
+  rstart = 0
+  restartfname = ''
+  outfname = 'qgt_samples-r=4e-5,dt=5,RKH=2e-7,RKH2=4e-11.nc'
+/
