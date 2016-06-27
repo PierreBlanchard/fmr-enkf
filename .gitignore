@@ -3,6 +3,12 @@
 # temporary files
 *~
 
+# large data sets provided in enkf-evensen
+enkf-evensen/QG_samples/QG_samples-11.mat
+enkf-evensen/QG_samples/QG_samples-12.mat
+
 # fmr library install directories
 fmr-dev/
 fmr-logs/
+
+
