@@ -22,7 +22,7 @@ The EnKF is a Kalman Filter formulation based on the propagation of an ensemble 
 Expensive matrix computations involved in the algorithm such as matrix factorizations and matrix multiplications can be handled by the open-source C++ package **FMR** :
 
 * The package can be downloaded from <a href="https://gforge.inria.fr/projects/fmr/">FMR Home Page</a>.
-* A copy of the current dev branch is provided in the tarball `./fmr-package.tar.gz`.
+* A copy of the current dev branch is provided in the tarball `./fmr-dev.tar.gz`.
 * It provides an extensive documentation on installation and usage.
 * Automatic installation is also explained in the [Tutorial](#SectionTutoInstallFMR).
 
@@ -45,7 +45,7 @@ is a prescribed numerical rank. It is applicable to any low-rank matrix as long 
 
 ####1.2.2 The Fast Multipole Method
 
-If a n-by-n symmetric matrix M is prescribed as a *smooth* kernel k evaluated on a spatial grid x, i.e., 
+If an n-by-n symmetric matrix M is prescribed as a *smooth* kernel k evaluated on a spatial grid x, i.e., 
 
 ```
 M_ij = k(x_i,x_j)
@@ -71,11 +71,25 @@ then it can be multiplied to any arbitrary vector at a O(n) computational cost u
 	
 ###3. <a name="SectionTuto"></a> TUTORIAL
 
-In order to get started quickly you'll need to install **FMR** package. 
+This project aims at enhancing a well known Data Assimilation code implemented in Matlab using fast numerical linear algebra implemented in C++.
+
+The resulting matlab library has 2 levels of usage:
+
+* [Basic EnKF](#SectionTutoBasicEnKF): Pure Matlab implementation, that does not require any installation
+* [Accelerated EnKF](#SectionTutoInstallFMR): Matlab calls C++ NLA routines. Therefore, compilation of **FMR**'s routines is required.
 
 ####3.1 <a name="SectionTutoBasicEnKF"></a> **Basic** usage of EnKF's Matlab library 
 
-If you don't want/need to install **FMR**, you can still play around with the EnKF matlab library. Please, read the README file in `./enkf-evensen/` in order to get familiar with Evensen's implementation. 
+If you don't want/need to install **FMR**, you can still play around with the EnKF matlab library. Please have a look at `./enkf-evensen/readme.txt` in order to get familiar with Evensen's implementation. 
+
+**Forward Models** Some basic forward models are implemented in Matlab:
+
+* Built-in: L3, L40, LA, LA2
+
+But more evolved ones are written in fortran90 and interfaced with Matlab using Mex:
+
+* Built-in: QG
+* **[TODO]** Add more models (MODFLOW, TOUGH2, ...)
 
 ####3.2 <a name="SectionTutoInstallFMR"></a> Install FMR package
 
@@ -88,8 +102,12 @@ you will have to run the install script `./fmr-install.sh`, i.e.,
 
 * Untar the package
 * Go to **FMR**'s home folder
-* Install dependencies, i.e., configure (using cmake), make and install scalfmm.
-* Configure (using cmake), make and install FMR
+* Install dependencies, i.e., **ScalFMM** library 
+	* Configure: `cmake ../`
+	* Compile and install library: `make install`
+* Install **FMR** library
+	* Configure: `cmake ../`
+	* Compile (and install): `make install`
 
 For an advanced configuration of **ScalFMM** and **FMR** you can use cmake with your own options or ccmake GUI, see [Section for further details on advanced configuration](#SectionTutoAdvancedFMR).
 
