@@ -14,8 +14,46 @@ Ensemble Kalman Filters (EnKFs) powered by the Fast Multipole Method (FMM) and R
 
 The EnKF is a Kalman Filter formulation based on the propagation of an ensemble of member (state) through the forward model, where the state estimate is computed as the mean of members and the covariance as the ensemble covariance.
 
-* **[TODO]** Provide equations of the EnKF (prediction + correction). 
-* **[TODO]** Provide weighted mean and covariance.
+* Init:
+
+	* State ensemble
+
+	![](http://mathurl.com/hvorfej) 
+
+	![](http://mathurl.com/zgjzyvc)
+
+	* Observations
+
+	![](http://mathurl.com/hwkbsfo) 
+
+	![](http://mathurl.com/jp3lf7p)
+
+	* Matrix notations
+
+	![](http://mathurl.com/zfbr3x9)
+
+	![](http://mathurl.com/jo7j98t)
+
+* Prediction:
+
+![Prediction](http://mathurl.com/glrsruu)
+
+* Correction:
+
+![Analysis](http://mathurl.com/hpcf9do)
+
+where
+
+* Kalman gain
+
+![K](http://mathurl.com/gr9hwwe)
+
+* (Weighted) mean and covariance.
+
+![EX](http://mathurl.com/zptys77)
+
+![Pf](http://mathurl.com/gwbechd)
+
 
 ####1.2 Fast Methods for Randomized Numerical Linear Algebra (FMR)
 
@@ -31,9 +69,7 @@ Expensive matrix computations involved in the algorithm such as matrix factoriza
 **FMR** implements a random projection based low-rank approximation known as the Randomized SVD, see [Section 3.4 for algorithms and guidelines](#SectionTutoAdvancedFMR). 
 The Randomized SVD provides an approximate rank-r SVD factorization of an m-by-n input dense matrix M, i.e., 
 
-```
-M = USV^T
-```
+![](http://mathurl.com/hpuy6lf)
 
 at a O(rmn) computational cost governed by the multiplication of M to a n-by-r matrix X, where 
 
@@ -47,9 +83,7 @@ is a prescribed numerical rank. It is applicable to any low-rank matrix as long 
 
 If an n-by-n symmetric matrix M is prescribed as a *smooth* kernel k evaluated on a spatial grid x, i.e., 
 
-```
-M_ij = k(x_i,x_j)
-```
+![](http://mathurl.com/zn2kr6j)
 
 then it can be multiplied to any arbitrary vector at a O(n) computational cost using the FMM. Consequently, decreasing the cost of the Randomized SVD from O(rn^2) to O(r^2n).
 
