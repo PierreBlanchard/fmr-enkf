@@ -63,7 +63,18 @@ function [x, x_true, E, stats] = main(prm, x_true0, E0, stats0)
     resumed = 0;
 
     prm = setpath(prm);
-    
+
+    %
+    % Precomputation
+    %   
+
+    % Compute square root of covariance matrices
+    % 1) Obs error covariance 
+    R=calc_r(prm);
+
+
+    % 2) Init state error covariance
+
     rand('state', prm.seed); % initialise to seed
     randn('state', prm.seed); % initialise to seed
     

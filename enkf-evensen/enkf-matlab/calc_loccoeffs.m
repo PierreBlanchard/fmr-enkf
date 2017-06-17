@@ -44,6 +44,12 @@ function [coeffs] = calc_loccoeffs(radius, tag, dist)
     
         R = radius;
         coeffs = exp(-0.5 * (dist / R) .^ 2);
+
+      case 'Expo'
+    
+        R = radius;
+        coeffs = exp(-1.0 * (dist / R) );
+
     
       case 'Gaspari_Cohn'
 

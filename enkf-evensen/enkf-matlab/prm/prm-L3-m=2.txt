@@ -10,6 +10,8 @@ nstep           2500
 assim_step      5
 obs_spacing     regular
 obs_variance    2
+obs_correlation_function Gauss
+obs_correlation_length 1.0
 loc_len         0
 read_ens        0
 plot_diag       1

@@ -31,11 +31,15 @@
 %% This file is part of EnKF-Matlab. EnKF-Matlab is a free software. See 
 %% LICENSE for details.
 
-function [y] = get_obs(prm, x, H)
+function [y] = get_obs(prm, x, H, sqrt_of_R)
 
-    p = size(H, 1);
-    variance = prm.obs_variance;
-  
-    y = H * x + randn(p, 1) * sqrt(variance);
+    p = size(sqrt_of_R, 1);
+
+	% Compute perturbation 
+	% ... apply SQRT of covariance matrix to white noise
+	epsilon_y = sqrt_of_R * randn(p, 1);			
+	
+	% Add perturbation
+    y = H * x + epsilon_y;
   
     return
